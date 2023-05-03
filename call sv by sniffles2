@@ -1,0 +1,8 @@
+#安装sniffles
+conda install -c "bioconda/label/main" sniffles
+sniffles --input aln.sort.bam --vcf sample.vcf
+#merge all samples 
+sniffles --input sample1.vcf sample2.vcf --vcf final.vcf
+sniffles --input sample_list.tsv --vcf final.vcf # create a tsv format file ( the first column should include file name ,the second column should include sample name)
+# sv genotype 
+sniffles --input sample.bam --genotype-vcf input_known_svs.vcf --vcf output_genotypes.vcf

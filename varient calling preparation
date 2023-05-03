@@ -1,0 +1,10 @@
+#output bam 
+#assembly to assembly/ref alignment
+minimap2 -ax asm5 ref.fa asm.fa > aln.sam
+samtools view -b -o aln.bam aln.sam
+samtools sort -@ 24 -o aln.sort.bam aln.bam
+samtools index -@ 24 aln.sort.bam
+#raw reads to ref alignment(use pacbio long reads)
+minimap2 -ax map-hifi ref.fa reads.fa > aln.sam 
+#or
+minimap2 -ax asm20 ref.fa reads.fa > aln.sam

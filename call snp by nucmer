@@ -1,0 +1,12 @@
+#nucmer call snp
+nucmer -p align ref.fna input.fna #比对# -p output prefix
+delta-filter -1 -q -r align.delta > align_qr.filter #qc
+show-snps -Clr -x 1 -T mum.delta.filter >mum.delta.filterX.snps #call snp
+python3.4 MUMmerSNPs2VCF.py mum.delta.filterX.snps Tan_filterX.snps.vcf #output vcf
+#merge
+bgzip -c file.vcf > file.vcf.gz 
+tabix -p vcf file.vcf.gz #create index
+bcftools merge merge-test-a.vcf.gz merge-test-b.vcf.gz -o ombine_a_b_diffsamples_allsites_vcftools.vcf 
+# change sample name
+bcftools reheader -s sample.file view.vcf -o new.sample.vcf # final vcf
+#samplefile  两列 第一列旧名称 第二列新名称  以空格或者其他分割
